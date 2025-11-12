@@ -1,0 +1,7 @@
+data = [("John", "Sales", 2500),
+        ("Alice", "HR", 3000),
+        ("Bob", "IT", 2800)]
+df = spark.createDataFrame(data, ["Name", "Dept", "Salary"])
+
+df.createOrReplaceTempView("employee")
+spark.sql("SELECT Dept, AVG(Salary) as Avg_Salary FROM employee GROUP BY Dept").show()
