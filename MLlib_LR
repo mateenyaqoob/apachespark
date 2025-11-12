@@ -1,0 +1,14 @@
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.feature import VectorAssembler
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("MLlibExample").getOrCreate()
+
+data = spark.read.csv("data/heart.csv", header=True, inferSchema=True)
+features = data.columns[:-1]
+assembler = VectorAssembler(inputCols=features, outputCol="features")
+train_data = assembler.transform(data).select("features", "target")
+
+lr = LogisticRegression(labelCol="target")
+model = lr.fit(train_data)
+model.summary.accuracy
