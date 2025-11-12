@@ -1,0 +1,5 @@
+rdd = spark.sparkContext.parallelize([1, 2, 3, 4, 5])
+mapped = rdd.map(lambda x: x * 2)
+filtered = mapped.filter(lambda x: x > 5)
+result = filtered.collect()
+print(result)  # [6, 8, 10]
